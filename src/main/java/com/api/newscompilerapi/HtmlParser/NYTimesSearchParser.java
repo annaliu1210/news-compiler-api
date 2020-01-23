@@ -24,9 +24,7 @@ public class NYTimesSearchParser extends SearchPageParser {
                 .child(1)
                 .getElementsByClass("css-46b038").first()
                 .child(0);
-//        System.out.println(articleListElement.toString());
         Elements articleElements = articleListElement.getElementsByClass("css-1l4w6pd");
-        System.out.println("articleElements-------------");
         List<Article> articles = new ArrayList<>();
         for (Element articleElement : articleElements) {
             Element urlElement = articleElement.getElementsByTag("div").first()
@@ -34,13 +32,10 @@ public class NYTimesSearchParser extends SearchPageParser {
                     .getElementsByClass("css-e1lvw9").first()
                     .getElementsByTag("a").first();
             String url = "https://www.nytimes.com" + urlElement.attr("href");
-            System.out.println(url);
             Element titleElement = urlElement.getElementsByTag("h4").first();
             String title = titleElement.text();
-            System.out.println(title);
 //            Element timeElement = articleElement.getElementsByTag("div").first()
 //                    .getElementsByTag("time").first();
-//            System.out.println(timeElement.toString());
             Article article = new Article(url, title, null);
             articles.add(article);
         }
