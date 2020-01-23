@@ -1,11 +1,13 @@
 package com.api.newscompilerapi.HtmlParser;
 
+import com.api.newscompilerapi.models.Article;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NYTimesSearchParser extends SearchPageParser {
@@ -15,20 +17,34 @@ public class NYTimesSearchParser extends SearchPageParser {
     }
 
     @Override
-    public List<String> parseForArticles(String query) throws IOException {
+    public List<Article> parseForArticles(String query) throws IOException {
         Document doc = Jsoup.connect(searchUrl + query).get();
-        Element articleList = doc.getElementById("site-content")
+        Element articleListElement = doc.getElementById("site-content")
                 .getElementsByClass("css-1wa7u5r").first()
                 .child(1)
                 .getElementsByClass("css-46b038").first()
                 .child(0);
-        System.out.println(articleList.toString());
-        Elements articles = articleList.getElementsByClass("css-1l4w6pd");
-        System.out.println("articles-------------");
-        for (Element article : articles) {
-            System.out.println(article.toString());
+//        System.out.println(articleListElement.toString());
+        Elements articleElements = articleListElement.getElementsByClass("css-1l4w6pd");
+        System.out.println("articleElements-------------");
+        List<Article> articles = new ArrayList<>();
+        for (Element articleElement : articleElements) {
+            Element urlElement = articleElement.getElementsByTag("div").first()
+                    .getElementsByClass("css-1i8vfl5").first()
+                    .getElementsByClass("css-e1lvw9").first()
+                    .getElementsByTag("a").first();
+            String url = "https://www.nytimes.com" + urlElement.attr("href");
+            System.out.println(url);
+            Element titleElement = urlElement.getElementsByTag("h4").first();
+            String title = titleElement.text();
+            System.out.println(title);
+//            Element timeElement = articleElement.getElementsByTag("div").first()
+//                    .getElementsByTag("time").first();
+//            System.out.println(timeElement.toString());
+            Article article = new Article(url, title, null);
+            articles.add(article);
         }
-        return null;
+        return articles;
     }
 
     public static void main(String[] args) throws Exception {

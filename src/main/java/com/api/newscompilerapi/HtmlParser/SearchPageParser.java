@@ -1,5 +1,7 @@
 package com.api.newscompilerapi.HtmlParser;
 
+import com.api.newscompilerapi.models.Article;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -11,5 +13,5 @@ public abstract class SearchPageParser {
         this.searchUrl = searchUrl;
     }
 
-    public abstract List<String> parseForArticles(String query) throws IOException;
+    public abstract List<Article> parseForArticles(String query) throws IOException;
 }
