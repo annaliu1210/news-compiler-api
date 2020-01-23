@@ -10,5 +10,5 @@ public abstract class SearchPageParser {
         this.searchUrl = searchUrl;
     }
 
-    public abstract List<String> parseForArticles();
+    public abstract List<String> parseForArticles(String query);
 }

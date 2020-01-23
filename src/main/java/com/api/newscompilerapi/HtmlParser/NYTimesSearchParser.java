@@ -9,7 +9,7 @@ public class NYTimesSearchParser extends SearchPageParser {
     }
 
     @Override
-    public List<String> parseForArticles() {
+    public List<String> parseForArticles(String query) {
         return null;
     }
 }
